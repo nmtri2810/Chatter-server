@@ -9,7 +9,6 @@ module.exports = {
                 last_name: "Doe",
                 gender: "0",
                 dob: "20021028",
-                role_id: 0,
                 createdAt: new Date(),
                 updatedAt: new Date(),
             },

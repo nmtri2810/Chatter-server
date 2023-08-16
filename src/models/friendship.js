@@ -10,10 +10,10 @@ module.exports = (sequelize, DataTypes) => {
         static associate(models) {
             // define association here
             Friendship.belongsTo(models.User_Profile, {
-                as: "profile_request",
+                as: "request",
             });
             Friendship.belongsTo(models.User_Profile, {
-                as: "profile_accept",
+                as: "accept",
             });
         }
     }

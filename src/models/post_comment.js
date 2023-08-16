@@ -10,10 +10,10 @@ module.exports = (sequelize, DataTypes) => {
         static associate(models) {
             // define association here
             Post_Comment.belongsTo(models.User_Post, {
-                as: "post_id",
+                as: "post",
             });
             Post_Comment.belongsTo(models.User_Profile, {
-                as: "profile_id",
+                as: "profile",
             });
         }
     }
