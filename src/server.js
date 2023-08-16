@@ -2,7 +2,7 @@ import express from "express";
 import bodyParser from "body-parser";
 import "dotenv/config";
 
-import initWebRoutes from "./route/web";
+import initWebRoutes from "./routes/web";
 import connectDB from "./config/connectDB";
 
 const app = express();
