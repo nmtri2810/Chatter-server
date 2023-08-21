@@ -13,7 +13,8 @@ const initWebRoutes = (app) => {
     router.post("/register", register);
     router.post("/login", login);
 
-    router.get("/users", authenticateToken, userController.getUsers);
+    // router.get("/users", authenticateToken, userController.getUsers);
+    router.get("/users", userController.getUsers);
 
     return app.use("/api/v1", router);
 };

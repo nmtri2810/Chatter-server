@@ -42,7 +42,7 @@ const handleUserLogin = async (email, password) => {
                     { userId },
                     process.env.ACCESS_TOKEN_SECRET,
                     {
-                        expiresIn: "30s",
+                        expiresIn: "7d",
                     }
                 );
             } else {
@@ -62,7 +62,6 @@ const checkUserEmailFromDB = async (email) => {
     try {
         let user = await db.User_Profile.findOne({
             where: { email },
-            raw: true,
         });
 
         if (user) {

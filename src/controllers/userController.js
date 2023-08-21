@@ -1,11 +1,19 @@
 import userService from "../services/userService";
 
 const getUsers = async (req, res) => {
-    let data = await userService.getUsersFromDB();
+    let id = req.query.id; //ALL || id
+
+    if (!id) {
+        return res.status(400).json({
+            message: "Missing required parameter",
+        });
+    }
+
+    let users = await userService.getUsersFromDB(id);
 
     return res.status(200).json({
-        message: "ok",
-        data,
+        message: "Ok",
+        users,
     });
 };
 

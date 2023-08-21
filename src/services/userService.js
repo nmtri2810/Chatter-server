@@ -1,12 +1,18 @@
 import db from "../models/index";
 
-const getUsersFromDB = async () => {
+const getUsersFromDB = async (id) => {
     try {
-        const data = await db.User_Profile.findAll({
-            raw: true,
-        });
+        let users;
+        if (id === "ALL") {
+            users = await db.User_Profile.findAll();
+        }
+        if (id && id !== "ALL") {
+            users = await db.User_Profile.findOne({
+                where: { id },
+            });
+        }
 
-        return data;
+        return users;
     } catch (error) {
         console.log(error);
     }

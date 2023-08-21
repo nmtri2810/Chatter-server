@@ -23,6 +23,8 @@ export const login = async (req, res) => {
         password
     );
 
+    res.cookie("jwt", accessToken, { maxAge: 1000 * 60 * 60 * 24 });
+
     switch (message) {
         case "Email not found":
         case "Wrong password":
