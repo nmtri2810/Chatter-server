@@ -1,48 +1,62 @@
 import authService from "../services/authService";
 import jwt from "jsonwebtoken";
 
-export const register = async (req, res) => {
-    await authService.handleUserRegister(req.body);
+export const handleRegister = async (req, res) => {
+    try {
+        if (!req.body) {
+            return res.status(400).json({
+                message: "Missing required parameter",
+            });
+        }
 
-    return res.status(201).json({
-        message: "created",
-    });
-};
+        let message = await authService.registerUser(req.body);
 
-export const login = async (req, res) => {
-    const { email, password } = req.body;
-
-    if (!email || !password) {
-        return res.status(400).json({
-            message: "Invalid email or password",
+        return res.status(200).json({
+            message,
         });
-    }
-
-    let { message, userId, accessToken } = await authService.handleUserLogin(
-        email,
-        password
-    );
-
-    res.cookie("jwt", accessToken, { maxAge: 1000 * 60 * 60 * 24 });
-
-    switch (message) {
-        case "Email not found":
-        case "Wrong password":
-            return res.status(401).json({
-                message,
-                userId,
-                accessToken,
-            });
-        case "Ok":
-            return res.status(200).json({
-                message,
-                userId,
-                accessToken,
-            });
+    } catch (error) {
+        console.log(error);
     }
 };
 
-export const authenticateToken = (req, res, next) => {
+export const handleLogin = async (req, res) => {
+    try {
+        const { email, password } = req.body;
+
+        if (!email || !password) {
+            return res.status(400).json({
+                message: "Invalid email or password",
+            });
+        }
+
+        let { message, userId, accessToken } = await authService.loginUser(
+            email,
+            password
+        );
+
+        res.cookie("jwt", accessToken, { maxAge: 1000 * 60 * 60 * 24 });
+
+        switch (message) {
+            case "Email not found":
+            case "Wrong password":
+                return res.status(401).json({
+                    message,
+                    userId,
+                    accessToken,
+                });
+            case "Ok":
+                return res.status(200).json({
+                    message,
+                    userId,
+                    accessToken,
+                });
+        }
+    } catch (error) {
+        console.log(error);
+    }
+};
+
+export const handleAuthenticateToken = (req, res, next) => {
     const authHeader = req.headers["authorization"];
     const token = authHeader.split(" ")[1];
     if (!token) res.sendStatus(401);

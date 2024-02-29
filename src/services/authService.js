@@ -2,8 +2,15 @@ import bcrypt from "bcrypt";
 import db from "../models/index";
 import jwt from "jsonwebtoken";
 
-const handleUserRegister = async (data) => {
+const registerUser = async (data) => {
     try {
+        let message;
+        let user = await checkUserEmailFromDB(data.email);
+        if (user) {
+            message = "Email already exists";
+            return message;
+        }
+
         const hashPassword = await hashUserPassword(data.password);
         await db.User_Profile.create({
             email: data.email,
@@ -14,6 +21,9 @@ const handleUserRegister = async (data) => {
             gender: data.gender,
             dob: data.dob,
         });
+
+        message = "Created";
+        return message;
     } catch (error) {
         console.log(error);
     }
@@ -29,7 +39,7 @@ const hashUserPassword = async (password) => {
     }
 };
 
-const handleUserLogin = async (email, password) => {
+const loginUser = async (email, password) => {
     try {
         let message, userId, accessToken;
         let user = await checkUserEmailFromDB(email);
@@ -75,6 +85,6 @@ const checkUserEmailFromDB = async (email) => {
 };
 
 export default {
-    handleUserRegister,
-    handleUserLogin,
+    registerUser,
+    loginUser,
 };

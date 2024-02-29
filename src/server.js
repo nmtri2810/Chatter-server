@@ -3,7 +3,7 @@ import bodyParser from "body-parser";
 import "dotenv/config";
 import cors from "cors";
 
-import initWebRoutes from "./routes/web";
+import initApiRoutes from "./routes/api";
 import connectDB from "./config/connectDB";
 
 const app = express();
@@ -19,7 +19,7 @@ app.use(
 
 const port = process.env.PORT || 8080;
 
-initWebRoutes(app);
+initApiRoutes(app);
 
 connectDB();
 
